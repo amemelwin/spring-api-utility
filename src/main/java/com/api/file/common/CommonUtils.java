@@ -6,18 +6,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Utility {
+
+public class CommonUtils {
 
 	/* CHECK EXTENSION UTILITY */
 
-	private static ArrayList<String> allowImagesExtensions = new ArrayList<String>(Arrays.asList("jpg", "jpeg", "png"));
-	private static ArrayList<String> allowCSVExtensions = new ArrayList<String>(Arrays.asList("csv"));
+	private static final ArrayList<String> allowImagesExtensions = new ArrayList<String>(Arrays.asList("jpg", "jpeg", "png"));
+	private static final ArrayList<String> allowCSVExtensions = new ArrayList<String>(Arrays.asList("csv"));
 
 	public static enum Extensions {
 		IMAGES, CSV
@@ -81,8 +88,8 @@ public class Utility {
 		PRODUCTS, PAYMENTS
 	}
 
-	private static String productBaseUrl = "assets/images/products/";
-	private static String paymentSlipBaseUrl = "assets/pdf/payments/";
+	private static final String productBaseUrl = "assets/images/products/";
+	private static final String paymentSlipBaseUrl = "assets/pdf/payments/";
 
 	/**
 	 * saveFile Util
@@ -137,7 +144,72 @@ public class Utility {
 	/* DELETE FILE UTILITY */
 	
 
+	/* CHECK PHONE FORMAT */
+	public static boolean isValidPhoneNumber(String phoneNumber) {
+		return phoneNumber.matches(CommonData.PHONE_REGEX_PATTERN_MM);
+	}
+	/* CHECK PHONE FORMAT */
+
+	/* CHECK GENDER FORMAT */
+	public static boolean isValidGender(String gender) {
+		return gender.matches(CommonData.GENDER_REGEX_PATTERN);
+	}
+	/* CHECK GENDER FORMAT */
+
+	/* CHECK VALID AUTHORITY */
+	public static boolean isValidAuthority(String authority) {
+		return authority.matches(CommonData.AUTHORITY_REGEX_PATTERN);
+	}
+	/* CHECK VALID AUTHORITY */
+
+	/* CHECK USER STATUS */
+	public static boolean isValidUserStatus(String status) {
+		return status.matches(CommonData.USER_STATUS_REGEX_PATTERN);
+	}
+	/* CHECK USER STATUS */
 	
+	/* CHECK EMPTY */
+	public static boolean isEmpty(String str) {
+		if (str == null || CommonData.BLANK.equals(str)) {
+			return true;
+		}
+		return false;
+	}
+	/* CHECK EMPTY */
 	
+	public static boolean isDateEmpty(LocalDate str) {
+		if (str == null || CommonData.BLANK.equals(str)) {
+			return true;
+		}
+		return false;
+	}
+
+	/* CHECK VALID MAIL FORMAT */
+	public static boolean isValidEmail(String email) {
+		return email.matches(CommonData.MAIL_REGEX_PATTERN);
+	}
+	/* CHECK VALID MAIL FORMAT */
+
+	/* CHECK VALID DATE FORMAT */
+	public static boolean isValidDate(String date) {
+		try {
+			DateFormat df = new SimpleDateFormat(CommonData.DATE_FORMAT_YYYYMMDD);
+			df.setLenient(false);
+			df.parse(date);
+			return true;
+		} catch (ParseException e) {
+			return false;
+		}
+	}
+	/* CHECK VALID DATE FORMAT */
+	
+	/* CHECK LAST FOUR DIGITS */
+	 public static boolean matchesLastFourDigits(String input) {
+	        Pattern pattern = Pattern.compile(CommonData.LAST_FOUR_DIGITS_REGEX_PATTERN);
+	        Matcher matcher = pattern.matcher(input);
+
+	        return matcher.find();
+	    }
+
 
 }
