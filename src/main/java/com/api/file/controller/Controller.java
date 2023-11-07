@@ -20,11 +20,7 @@ public class Controller {
 	
 	// 2. file upload multiple
 		
-	@GetMapping("/testing")
-	public boolean commonUtilTesting() {
-		//return "3".matches(CommonData.GENDER_REGEX_PATTERN);
-		return CommonUtils.matchesLastFourDigits("12AB34CD");
-	}
+
 	
 	@PostMapping("/file-upload")
 	public String fileUpload(@RequestParam("file") MultipartFile file ) {
